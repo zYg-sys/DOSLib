@@ -27,7 +27,8 @@ void CDosDwgPreviewCtrl::OnPaint()
   int cy = rcframe.Height() - rc.Height();
   ScreenToClient(rc);
   rc.DeflateRect(cx / 2, cy / 2);
-  GetDC()->FillRect(rc, &CBrush(GetSysColor(COLOR_BTNFACE)));
+  CClientDC dc(this);
+  dc.FillRect(rc, &CBrush(GetSysColor(COLOR_BTNFACE)));
   CStatic::OnPaint();
   acdbDisplayPreviewFromDwg(m_strFilename, m_hWnd, (const Adesk::UInt32*)&m_nColor);
 }

@@ -488,7 +488,7 @@ int CDOSLibApp::ads_dos_htmldialog()
   }
 
   CDosHtmlDialogEx dlg(szFileName);
-  dlg.SetArguments(saArgs.Detach());
+  dlg.SetArguments(saArgs);
   dlg.SetOptions(strOptions);
 
   if (bModeless)

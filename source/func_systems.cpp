@@ -71,10 +71,15 @@ int CDOSLibApp::ads_dos_clipboard()
       EmptyClipboard();
       size_t dwBytes = (strText.GetLength() + 1) * sizeof(wchar_t);
       HGLOBAL hGlobal = GlobalAlloc(GMEM_DDESHARE, dwBytes);
-      LPTSTR lpBuffer = (LPTSTR)GlobalLock(hGlobal);
-      wcscpy(lpBuffer, strText);
-      GlobalUnlock(lpBuffer);
-      SetClipboardData(CF_UNICODETEXT, hGlobal);
+      if (hGlobal)
+      {
+        LPTSTR lpBuffer = (LPTSTR)GlobalLock(hGlobal);
+        wcscpy(lpBuffer, strText);
+        GlobalUnlock(lpBuffer);
+        // SetClipboardData takes ownership of hGlobal on success; free it if it fails.
+        if (0 == SetClipboardData(CF_UNICODETEXT, hGlobal))
+          GlobalFree(hGlobal);
+      }
       CloseClipboard();
     }
   }

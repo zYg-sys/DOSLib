@@ -28,7 +28,10 @@ bool IsPowerUser()
     return bSuccess;
 
   if (!GetTokenInformation(AccessToken, TokenGroups, InfoBuffer, 1024, &InfoBufferSize))
+  {
+    CloseHandle(AccessToken);
     return bSuccess;
+  }
 
   CloseHandle(AccessToken);
 
@@ -36,7 +39,10 @@ bool IsPowerUser()
     return bSuccess;
 
   if (!AllocateAndInitializeSid(&NtAuthority, 2, SECURITY_BUILTIN_DOMAIN_RID, DOMAIN_ALIAS_RID_POWER_USERS, 0, 0, 0, 0, 0, 0, &PowerUsersSid))
+  {
+    FreeSid(AdministratorsSid);
     return bSuccess;
+  }
 
   UINT x;
   for (x = 0; x < Groups->GroupCount; x++)
@@ -69,7 +75,10 @@ bool IsAdministrator()
     return bSuccess;
 
   if (!GetTokenInformation(AccessToken, TokenGroups, InfoBuffer, 1024, &InfoBufferSize))
+  {
+    CloseHandle(AccessToken);
     return bSuccess;
+  }
 
   CloseHandle(AccessToken);
 

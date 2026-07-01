@@ -371,8 +371,8 @@ int CDOSLibApp::ads_dos_hdserialno()
       // Setup SMART request...
       SENDCMDINPARAMS InParams =
       {
-        IDENTIFY_BUFFER_SIZE, { 0, 1, 1, 0, 0, ((vdExtents.Extents[0].DiskNumber & 1) ? 0xB0 : 0xA0),
-        ((gvopVersionParams.bIDEDeviceMap >> vdExtents.Extents[0].DiskNumber & 0x10) ? ATAPI_ID_CMD : ID_CMD) },
+        IDENTIFY_BUFFER_SIZE, { 0, 1, 1, 0, 0, (BYTE)((vdExtents.Extents[0].DiskNumber & 1) ? 0xB0 : 0xA0),
+        (BYTE)((gvopVersionParams.bIDEDeviceMap >> vdExtents.Extents[0].DiskNumber & 0x10) ? ATAPI_ID_CMD : ID_CMD) },
         (BYTE)vdExtents.Extents[0].DiskNumber
       };
 

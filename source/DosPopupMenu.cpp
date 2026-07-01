@@ -64,6 +64,11 @@ bool CDosPopupMenu::CheckDefaults(LPCTSTR nResourceID, HINSTANCE hInst)
 
 CDosPopupMenu::~CDosPopupMenu()
 {
+  if (m_hMenu)
+  {
+    ::DestroyMenu(m_hMenu);
+    m_hMenu = 0;
+  }
 }
 
 int CDosPopupMenu::AddItem(LPCTSTR lpszItem)
@@ -439,8 +444,8 @@ int CDosPopupMenu::PopUpEx(CWnd* parent, CPoint bottom, CPoint top, int nTranspa
 
   if (bCreateMenu)
     ::DestroyWindow(hwnd);
-  else if (m_hMenu)
-    ::DestroyMenu(m_hMenu);
+  else
+    menu.Detach(); // m_hMenu is owned by this object and destroyed in the destructor
 
   if (result < 1)
     return -1;
